@@ -1,4 +1,16 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateBookDto } from './create-book.dto';
+import { IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateBookDto extends PartialType(CreateBookDto) {}
+export class UpdateBookDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly id: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly age: string;
+}
