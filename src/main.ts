@@ -2,13 +2,16 @@ import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
 function setupSwagger(app: INestApplication) {
+  const configService = app.get<ConfigService>(ConfigService);
+  const appName = configService.get('npm_package_name');
+  const appVersion = configService.get('npm_package_version');
   const config = new DocumentBuilder()
-    .setTitle('Books API')
+    .setTitle(appName)
     .setDescription('Improve this description')
-    .setVersion('1.0.0')
-    .addTag('Books API')
+    .setVersion(appVersion)
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
