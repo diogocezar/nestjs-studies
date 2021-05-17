@@ -13,6 +13,8 @@ import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { YupValidationPipe } from 'src/libs/you-validation-pipe';
+import { bookSchema } from './schemas/books.schema';
 
 @ApiTags('Books')
 @Controller('books')
@@ -21,7 +23,9 @@ export class BooksController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createBookDto: CreateBookDto) {
+  create(
+    @Body(new YupValidationPipe(bookSchema)) createBookDto: CreateBookDto,
+  ) {
     return this.booksService.create(createBookDto);
   }
 
